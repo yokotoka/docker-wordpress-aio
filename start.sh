@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# Setup Mysql character to utf-8
+### Idea from http://outofcontrol.ca/blog/comments/change-mysql-5.5-default-character-set-to-utf8
+sed -i "/default-character-set/d" /etc/mysql/my.cnf
+sed -i "/\[mysqld]/a skip-character-set-client-handshake" /etc/mysql/my.cnf
+sed -i "/\[mysqld]/a collation-server=utf8_unicode_ci" /etc/mysql/my.cnf
+sed -i "/\[mysqld]/a character-set-server=utf8" /etc/mysql/my.cnf
+sed -i "/\[mysqld]/a init_connect= 'SET NAMES utf8' " /etc/mysql/my.cnf
+sed -i "/\[mysqld]/a init_connect=‘SET collation_connection = utf8_unicode_ci' " /etc/mysql/my.cnf
+
 if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   #mysql has to be started this way as it doesn't work to call from /etc/init.d
   /usr/bin/mysqld_safe &
