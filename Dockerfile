@@ -9,6 +9,22 @@ RUN mkdir /var/run/sshd
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
+# https://gist.github.com/Globegitter/685e3739c0f181bda3ec
+# Automatically instal the latest nginx
+RUN wget -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add -
+
+#Make a backup copy of your current sources.list file
+RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+
+#Now copy the following repositories to the end of ` /etc/apt/sources.list`
+RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" | sudo tee -a /etc/apt/sources.list
+RUN echo "deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx" | sudo tee -a /etc/apt/sources.list
+
+#If you want to use the 'stable' branch take:
+#echo "deb http://nginx.org/packages/ubuntu/ trusty nginx" | sudo tee -a /etc/apt/sources.list
+#echo "deb-src http://nginx.org/packages/ubuntu/ trusty nginx" | sudo tee -a /etc/apt/sources.list
+
+
 RUN apt-get update
 RUN apt-get -y upgrade
 
