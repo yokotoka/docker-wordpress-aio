@@ -11,10 +11,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # https://gist.github.com/Globegitter/685e3739c0f181bda3ec
 # Automatically instal the latest nginx
-RUN wget -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add -
+RUN wget -O - http://nginx.org/keys/nginx_signing.key
+RUN apt-key add nginx_signing.key
 
 #Make a backup copy of your current sources.list file
-RUN sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak
 
 #Now copy the following repositories to the end of ` /etc/apt/sources.list`
 RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" | sudo tee -a /etc/apt/sources.list
