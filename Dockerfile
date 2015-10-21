@@ -11,6 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # https://gist.github.com/Globegitter/685e3739c0f181bda3ec
 # Automatically instal the latest nginx
+RUN apt-get install wget
 RUN wget -O - http://nginx.org/keys/nginx_signing.key
 RUN apt-key add nginx_signing.key
 
