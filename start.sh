@@ -21,6 +21,7 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   sed -e "s/database_name_here/$WORDPRESS_DB/
   s/username_here/$WORDPRESS_DB/
   s/password_here/$WORDPRESS_PASSWORD/
+  s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\ndefine('FS_METHOD', 'direct');/
   /'AUTH_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
   /'SECURE_AUTH_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
   /'LOGGED_IN_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
@@ -34,6 +35,9 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   curl -O `curl -i -s https://wordpress.org/plugins/nginx-helper/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`
   unzip -o nginx-helper.*.zip -d /usr/share/nginx/www/wp-content/plugins
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/nginx-helper
+
+  #chown -R www-data:www-data /usr/share/nginx/www/
+  #chmod -R g+w /usr/share/nginx/www
 
   # Activate nginx plugin and set up pretty permalink structure once logged in
   cat << ENDL >> /usr/share/nginx/www/wp-config.php
